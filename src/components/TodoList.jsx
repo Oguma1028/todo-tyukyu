@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Sort from "./Sort";
 import Box from "@mui/material/Box";
 import { Select, Button } from "@mui/material";
 import { Typography } from "@mui/material";
@@ -37,7 +38,6 @@ const TodoList = () => {
           <Button variant="outlined">Outlined</Button>
         </Box>
       </Box>
-      <Box></Box>
     </>
   );
 };
