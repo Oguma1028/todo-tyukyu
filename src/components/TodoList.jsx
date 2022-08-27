@@ -8,7 +8,15 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import { Button } from "@mui/material";
 import { db } from "../firebase";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  updateDoc,
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 const TodoList = () => {
   const [todo, setTodo] = useState("");
@@ -32,12 +40,28 @@ const TodoList = () => {
     event.preventDefault();
     const colectionRef = collection(db, "todos");
     const data = {
+      id: "yet",
       todo,
       date,
       progress,
     };
 
-    addDoc(colectionRef, data);
+    const firestoreSubmit = async () => {
+      await addDoc(colectionRef, data);
+      const q = await query(collection(db, "todo"), where("id", "==", "yet"));
+      const querySnapshot = await getDocs(q);
+      let docId = "";
+      querySnapshot.forEach((doc) => {
+        docId = doc.id;
+      });
+
+      const updateIdRef = doc(db, "todo", docId);
+      updateDoc(updateIdRef, {
+        id: docId,
+      });
+    };
+
+    firestoreSubmit();
   };
 
   return (
